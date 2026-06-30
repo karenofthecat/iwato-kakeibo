@@ -1,0 +1,15 @@
+{
+  "name": "iwato家計簿",
+  "short_name": "iwato家計簿",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0c0c0d",
+  "theme_color": "#0f0f10",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
