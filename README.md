@@ -1,3 +1,18 @@
-# iwato家計簿 v0.4
+# iwato家計簿 v0.4.1
 
-そろばん豆アイコン、入金、請求月指定、過去分入力、カード表示月切替、交通・駐車場費目を追加。
+GitHub Pages用の修正版です。
+
+## 変更点
+- `.nojekyll` を追加
+- GitHub Pagesのビルド失敗対策
+- v0.4機能は維持
+
+## アップロードするファイル
+- index.html
+- manifest.json
+- sw.js
+- icon.png
+- README.md
+- .nojekyll
+
+ZIPそのものではなく、中身をアップロードしてください。
