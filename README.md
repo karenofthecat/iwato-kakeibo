@@ -1,18 +1,11 @@
-# iwato家計簿 v0.4.1
-
-GitHub Pages用の修正版です。
+# iwato家計簿 v0.5
 
 ## 変更点
-- `.nojekyll` を追加
-- GitHub Pagesのビルド失敗対策
-- v0.4機能は維持
+- v0.5初期データ補正
+- 7月既存支出を初期反映
+- 光熱費カテゴリ追加
+- Aillioファンは8月請求として登録
+- 現在残高を 口座191,612 / 財布594 / PayPay31,642 に補正
 
-## アップロードするファイル
-- index.html
-- manifest.json
-- sw.js
-- icon.png
-- README.md
-- .nojekyll
-
-ZIPそのものではなく、中身をアップロードしてください。
+## アップロード
+ZIPの中身5ファイルをGitHubへ上書きしてください。
