@@ -2,7 +2,7 @@
 <html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0b0c"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="iwato家計簿"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="./manifest.json"><link rel="icon" href="./icon.png"><title>iwato家計簿 v0.7.10</title>
+<link rel="manifest" href="./manifest.json"><link rel="icon" href="./icon.png"><title>iwato家計簿 v0.7.12</title>
 <style>
 :root{--bg:#0b0b0c;--card:#17171b;--card2:#24242a;--text:#f6f6f6;--muted:#a1a1aa;--line:#34343b;--green:#98e6aa;--yellow:#f2d36b;--red:#ff8989}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;padding:env(safe-area-inset-top) 14px calc(28px + env(safe-area-inset-bottom));background:radial-gradient(circle at top,#242428 0,#0b0b0c 45%,#080809 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif}header{display:flex;align-items:center;justify-content:space-between;padding:16px 2px 10px}.brand{display:flex;gap:10px;align-items:center}.appicon{width:48px;height:48px;border-radius:14px;object-fit:cover;background:#fff}h1{font-size:22px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:4px}.badge{font-size:12px;color:#111;background:#f5f5f5;border-radius:999px;padding:7px 10px;font-weight:900}.tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;position:sticky;top:0;z-index:10;background:rgba(11,11,12,.94);backdrop-filter:blur(10px);padding:9px 0}.tab{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:12px;padding:11px 0;font-size:11px;font-weight:800;margin:0}.tab.active{background:#f5f5f5;color:#111}.card{background:rgba(23,23,27,.96);border:1px solid var(--line);border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 14px 32px rgba(0,0,0,.28)}h2{font-size:16px;margin:0 0 12px}h3{font-size:14px;margin:0}label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}input,select,textarea{width:100%;background:var(--card2);color:var(--text);border:1px solid var(--line);border-radius:14px;padding:13px 12px;font-size:16px;outline:none}textarea{min-height:110px}.row,.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.triple{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}button{width:100%;border:0;border-radius:15px;padding:14px 12px;font-size:15px;font-weight:900;background:#f5f5f5;color:#111;margin-top:10px;touch-action:manipulation}button.secondary{background:var(--card2);color:var(--text);border:1px solid var(--line)}button.danger{background:#2b1518;color:#ffb6b6;border:1px solid #5a2a30}.mini{width:auto;padding:9px 11px;font-size:12px;border-radius:11px;margin:0}.metric{background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:12px}.metric .name{font-size:12px;color:var(--muted)}.metric .val{font-size:20px;font-weight:950;margin-top:5px}.out{background:#09090a;border:1px dashed #5b5b63;border-radius:15px;padding:12px;white-space:pre-wrap;line-height:1.6;min-height:80px;font-size:14px}.list{display:flex;flex-direction:column;gap:8px}.scrollbox{max-height:55vh;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-right:2px}.item{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:11px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.item b{font-size:14px}.item span{font-size:12px;color:var(--muted);line-height:1.45}.actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.actions .mini{min-width:52px}.refund{background:#18251d!important;color:#b9f4c5!important;border:1px solid #31543a!important}.hidden{display:none}.small{font-size:12px;color:var(--muted);line-height:1.65}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#f5f5f5;color:#111;padding:11px 15px;border-radius:999px;font-weight:900;font-size:13px;opacity:0;transition:.2s;z-index:99;pointer-events:none}.toast.show{opacity:1;bottom:34px}.details{border:1px solid var(--line);border-radius:16px;background:var(--card2);overflow:hidden}.details+ .details{margin-top:10px}.details summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px;cursor:pointer;font-weight:900}.details summary::-webkit-details-marker{display:none}.details summary:after{content:'＋';color:var(--muted)}.details[open] summary:after{content:'−'}.details-body{padding:0 10px 10px}.status{display:inline-block;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:900;background:#333}.status.open{color:#151515;background:var(--yellow)}.status.paid{color:#151515;background:var(--green)}.divider{height:1px;background:var(--line);margin:10px 0}.toolbar{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.toolbar button{width:auto;min-width:84px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.pill{font-size:11px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
 .fixed-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
@@ -17,7 +17,7 @@
 .fixed-row{border-color:#355440;background:#1b221d}
 .card-total-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}@media(max-width:430px){.row,.grid{grid-template-columns:1fr 1fr}.triple{grid-template-columns:1fr}.tabs{gap:4px}.tab{font-size:10px;padding:10px 1px}.card{padding:14px}}
 </style></head><body>
-<header><div class="brand"><img class="appicon" src="./icon.png" alt=""><div><h1>iwato家計簿</h1><div class="sub">v0.7.10 8月重複統合</div></div></div><div class="badge" id="monthBadge"></div></header>
+<header><div class="brand"><img class="appicon" src="./icon.png" alt=""><div><h1>iwato家計簿</h1><div class="sub">v0.7.12 8月月締め修正</div></div></div><div class="badge" id="monthBadge"></div></header>
 <nav class="tabs"><button class="tab active" data-view="home">ホーム</button><button class="tab" data-view="input">入力</button><button class="tab" data-view="card">カード</button><button class="tab" data-view="proxy">代理</button><button class="tab" data-view="fixed">固定費</button><button class="tab" data-view="analysis">分析</button><button class="tab" data-view="report">出力</button></nav>
 <main id="view-home"><section class="card"><h2>🏠 現在残高</h2><div class="grid" id="homeMetrics"></div></section><section class="card"><div class="section-title"><h2>月初資金</h2><span class="pill" id="openingLabel"></span></div><div class="grid" id="openingMetrics"></div><button class="secondary" id="editOpening">月初資金を修正</button></section><section class="card"><h2>月をまたぐ</h2><p class="small">現在月を締めてスナップショットを保存し、現在残高と未回収代理を次月へ繰り越します。</p><button id="closeMonth">今月を締めて翌月を開始</button></section></main>
 <main id="view-input" class="hidden"><section class="card"><h2>＋ 支出入力</h2><div class="row"><div><label>費目</label><select id="cat"></select></div><div><label>支払元</label><select id="method"></select></div></div><label>金額</label><input id="amount" type="number" inputmode="numeric" placeholder="例：8570"><label>メモ</label><input id="memo" placeholder="例：Aillioファン"><div class="row"><div><label>請求年月（カード時）</label><input id="billMonth" type="month"></div><div><label>残高反映</label><select id="affectBalance"><option value="yes">反映する</option><option value="no">過去分・反映しない</option></select></div></div><button id="addExpense">追加</button></section><section class="card"><h2>＋ 入金</h2><div class="row"><div><label>入金先</label><select id="incomeTo"></select></div><div><label>金額</label><input id="incomeAmount" type="number" inputmode="numeric"></div></div><label>内容</label><input id="incomeMemo" placeholder="例：夜職給与"><button id="addIncome">入金する</button></section><section class="card"><h2>残高補正</h2><div class="row"><div><label>項目</label><select id="fixMethod"></select></div><div><label>実残高</label><input id="fixAmount" type="number" inputmode="numeric"></div></div><button class="secondary" id="balanceFix">補正する</button></section><section class="card"><h2>ChatGPTへ貼る文</h2><div class="out" id="copyBox"></div><button id="copy">コピー</button><button class="secondary" id="clearDraft">貼り付け文だけクリア</button></section><section class="card"><h2>最近の入力</h2><div class="list scrollbox" id="recent"></div></section><section class="card"><h2>📥 ChatGPT形式を貼り付け</h2><p class="small">【支出】【残高】を含む文章をそのまま貼り付けます。同一文章内は上から下へ時系列として処理します。</p><textarea id="chatImport" placeholder="【支出】&#10;食費・カフェ 447 PayPay残高 丸合&#10;【残高】&#10;PayPay残高 2612"></textarea><button id="importChatText">取り込む</button></section></main>
@@ -46,7 +46,7 @@
 <main id="view-report" class="hidden"><section class="card"><h2>📄 月次メモ</h2><div class="out" id="reportBox"></div><button id="copyReport">月次メモをコピー</button></section><section class="card"><h2>⚙️ 設定・バックアップ</h2><div class="row"><div><label>表示年</label><input id="year" type="number"></div><div><label>表示月</label><input id="month" type="number"></div></div><button id="saveYM">年月保存</button><button class="secondary" id="importLegacy">旧v0.5データを再取込</button><button class="secondary" id="fullJulyRecovery">v0.6.5の7月末データを完全復旧</button><button class="secondary" id="restoreAugustChat">8月チャット記録を復旧</button><button class="secondary" id="cleanupDuplicates">重複明細を整理</button><label>バックアップ</label><textarea id="backup"></textarea><div class="row"><button id="copyBackup">コピー</button><button class="secondary" id="restoreBackup">貼付内容から復元</button></div><button class="danger" id="reset">全データ初期化</button></section><section class="card"><div class="section-title"><h2>💾 復元ポイント</h2><span class="pill">最大10件</span></div><button class="secondary" id="saveRestorePoint">現在の状態を保存</button><div class="list" id="restorePointList" style="margin-top:10px"></div></section></main>
 <div class="toast" id="toast"></div>
 <script>
-const VERSION='0.7.11',KEY='iwato-kakeibo-v06',OLD_KEY='iwato-kakeibo-v01';
+const VERSION='0.7.12',KEY='iwato-kakeibo-v06',OLD_KEY='iwato-kakeibo-v01';
 const categories=['食費・カフェ','住居・日用品','キッチン用品','コーヒー・焙煎設備','医薬品','健康・サプリ','通信費','光熱費','娯楽','服飾','美容・身だしなみ','交通・駐車場','代理','その他'];
 const methods=['財布','PayPay残高','口座','楽天カード','Amazonカード','PayPayカード','ICOCA','J-Coin','楽天ポイント'];
 const cardMethods=['楽天カード','Amazonカード','PayPayカード'], moneyMethods=['財布','PayPay残高','口座','ICOCA','J-Coin','楽天ポイント'];
@@ -113,6 +113,22 @@ d.entries=d.entries||[];d.installments=d.installments||[];d.receivables=d.receiv
   if(d.cashPlan['8月'])d.cashPlan['8月'].start=98869;
   if(july)july.balances={...(july.balances||{}),口座:98869};
  }
+ // v0.7.12: entries added on Sep 1 while the ledger was still on August belong to the August close.
+ if(d.year===2026&&d.month===8){
+  const moveToAug=(type,method,amount,memo,date)=>{
+   for(const e of (d.entries||[])){
+    if(e.type===type&&e.method===method&&+e.amount===amount&&String(e.memo||'').trim()===memo&&String(e.date||'').slice(0,7)==='2026-09')e.date=date;
+   }
+  };
+  moveToAug('income','口座',251,'利息','2026-08-22');
+  moveToAug('income','口座',107211,'夜職給与','2026-08-25');
+  moveToAug('income','口座',85598,'昼職給与','2026-08-31');
+  moveToAug('income','PayPay残高',16000,'奥さんから','2026-08-31');
+  moveToAug('expense','PayPay残高',14760,'電気代','2026-08-31');
+  for(const e of (d.entries||[])){
+   if(e.type==='balance'&&e.method==='PayPay残高'&&+e.amount===832&&String(e.date||'').slice(0,7)==='2026-09')e.date='2026-08-31';
+  }
+ }
  // v0.7.11: 2026-08 bank statement reconciliation. Keep bank debits separate from expense categories.
  if(d.year===2026&&d.month===8){
   const augDebits=[
@@ -168,6 +184,7 @@ function toast(t){const e=q('toast');e.textContent=t;e.classList.add('show');set
 function copy(t){navigator.clipboard?.writeText(t).then(()=>toast('コピーしました')).catch(()=>toast('コピーできませんでした'))}
 function sel(id,items){q(id).innerHTML=items.map(x=>`<option>${x}</option>`).join('')}
 function currentYM(){return ym(data.year,data.month)}
+function entryDate(){const t=today();if(t.slice(0,7)===currentYM())return t;const last=new Date(data.year,data.month,0).getDate();return `${currentYM()}-${String(last).padStart(2,'0')}`}
 function monthEntries(){return data.entries.filter(e=>(e.date||'').slice(0,7)===currentYM())}
 function catSums(){const s={};categories.forEach(c=>s[c]=0);monthEntries().filter(e=>e.type==='expense'&&e.category!=='代理').forEach(e=>s[e.category]=(s[e.category]||0)+(+e.amount||0));visibleLegacyInstallments().filter(x=>x.startYM<=currentYM()&&x.endYM>=currentYM()).forEach(x=>s[x.category]=(s[x.category]||0)+(+x.amount||0));return s}
 
@@ -277,19 +294,19 @@ function importChatText(raw){
   if(line==='【残高】'){mode='balance';continue}
   const p=parseMoneyLine(line); if(!p)continue;
   if(mode==='balance'){
-   if(data.balances[p.category]!==undefined){data.balances[p.category]=p.amount;addEntry({type:'balance',method:p.category,amount:p.amount,label:`【残高】 ${p.category} ${p.amount}`,date:today()});count++}
+   if(data.balances[p.category]!==undefined){data.balances[p.category]=p.amount;addEntry({type:'balance',method:p.category,amount:p.amount,label:`【残高】 ${p.category} ${p.amount}`,date:entryDate()});count++}
    continue
   }
   const isRecovery=p.category==='代理'&&p.memo.includes('回収');
   if(isRecovery){
    const target=p.memo.replace(/^回収\s*/,'').trim();
    let x=proxyOpen().find(r=>target&&r.memo.includes(target)); if(!x&&proxyOpen().length===1)x=proxyOpen()[0];
-   if(x){const a=Math.min(p.amount,x.remaining);x.remaining-=a;if(x.remaining<=0){x.remaining=0;x.status='paid'}if(data.balances[p.method]!==undefined)data.balances[p.method]+=a;data.recoveries.push({id:uid(),receivableId:x.id,date:today(),memo:x.memo,amount:a,to:p.method,kind:'回収'});count++}
+   if(x){const a=Math.min(p.amount,x.remaining);x.remaining-=a;if(x.remaining<=0){x.remaining=0;x.status='paid'}if(data.balances[p.method]!==undefined)data.balances[p.method]+=a;data.recoveries.push({id:uid(),receivableId:x.id,date:entryDate(),memo:x.memo,amount:a,to:p.method,kind:'回収'});count++}
    continue
   }
   const bm=p.memo.match(/請求(\d{4}-\d{2})/); const billYM=bm?bm[1]:currentYM(); const memo=p.memo.replace(/\s*請求\d{4}-\d{2}\s*/,'').trim();
   const card=cardMethods.includes(p.method);
-  const e={type:'expense',category:p.category,method:p.method,amount:p.amount,memo,label:`${p.category} ${p.amount} ${p.method}${memo?' '+memo:''}${card?' 請求'+billYM:''}`,billYM,affectBalance:!card,date:today()};
+  const e={type:'expense',category:p.category,method:p.method,amount:p.amount,memo,label:`${p.category} ${p.amount} ${p.method}${memo?' '+memo:''}${card?' 請求'+billYM:''}`,billYM,affectBalance:!card,date:entryDate()};
   addEntry(e); if(!card&&data.balances[p.method]!==undefined)data.balances[p.method]-=p.amount;
   if(p.category==='代理')data.receivables.push({id:uid(),entryId:e.id,date:e.date,memo:memo||'代理',original:p.amount,remaining:p.amount,method:p.method,status:'open'});
   count++
@@ -424,7 +441,7 @@ window.refundCardRow=(type,id)=>{
  const billYM=prompt('返金が反映される請求月（YYYY-MM）',defaultYM);if(billYM===null||!/^\d{4}-\d{2}$/.test(billYM))return toast('請求年月を確認');
  const memo=prompt('返金メモ',`${x.memo||x.name||'カード利用'} 返金`);if(memo===null)return;
  addRestorePoint(`カード返金登録前 ${memo}`);
- addEntry({type:'cardDetail',category:'返金',method:card,amount:-amount,memo,label:`返金 ${-amount} ${card} ${memo} 請求${billYM}`,billYM,affectBalance:false,date:today()});
+ addEntry({type:'cardDetail',category:'返金',method:card,amount:-amount,memo,label:`返金 ${-amount} ${card} ${memo} 請求${billYM}`,billYM,affectBalance:false,date:entryDate()});
  data.draft.push(`返金 ${amount} ${card} ${memo} 請求${billYM}`);
  render();toast('返金を登録しました')
 }
@@ -563,11 +580,11 @@ function restoreAugustChat(){
  toast(`${added}件復旧・重複${removed}件整理しました`)
 }
 
-function addEntry(e){e.id=e.id||uid();e.date=e.date||today();data.entries.push(e)}
+function addEntry(e){e.id=e.id||uid();e.date=e.date||entryDate();data.entries.push(e)}
 function addExpense(){const category=q('cat').value,method=q('method').value,amount=+q('amount').value,memo=q('memo').value.trim(),affect=q('affectBalance').value==='yes',billYM=q('billMonth').value||currentYM();if(!amount)return toast('金額を入力');const label=`${category} ${amount} ${method}${memo?' '+memo:''}${cardMethods.includes(method)?' 請求'+billYM:''}${!affect?' 過去分':''}`;const e={type:'expense',category,method,amount,memo,label,billYM,affectBalance:affect};addEntry(e);data.draft.push(label);if(affect&&moneyMethods.includes(method))data.balances[method]=(data.balances[method]||0)-amount;if(category==='代理')data.receivables.push({id:uid(),entryId:e.id,date:e.date,memo:memo||'代理',original:amount,remaining:amount,method,status:'open'});q('amount').value='';q('memo').value='';render()}
 function addIncome(){const method=q('incomeTo').value,amount=+q('incomeAmount').value,memo=q('incomeMemo').value.trim();if(!amount)return toast('金額を入力');const label=`入金 ${amount} ${method}${memo?' '+memo:''}`;data.draft.push(label);addEntry({type:'income',method,amount,memo,label});data.balances[method]=(data.balances[method]||0)+amount;q('incomeAmount').value='';q('incomeMemo').value='';render()}
 function balanceFix(){const method=q('fixMethod').value,amount=+q('fixAmount').value;if(!Number.isFinite(amount))return toast('実残高を入力');data.balances[method]=amount;const label=`【残高】\n${method} ${amount}`;data.draft.push(label);addEntry({type:'balance',method,amount,label});q('fixAmount').value='';render()}
-window.recoverProxy=id=>{const x=data.receivables.find(x=>x.id===id);if(!x)return;const raw=prompt(`回収額（残 ${x.remaining}円）`,String(x.remaining));if(raw===null)return;const amount=Math.min(+raw||0,x.remaining);if(!amount)return;const to=prompt('入金先','財布')||'財布';const kind=confirm('「OK」=回収、「キャンセル」=免除')?'回収':'免除';x.remaining-=amount;if(x.remaining<=0){x.remaining=0;x.status='paid'};if(kind==='回収'&&data.balances[to]!==undefined)data.balances[to]+=amount;data.recoveries.push({id:uid(),receivableId:id,date:today(),memo:x.memo,amount,to,kind});data.draft.push(`代理 ${amount} ${kind==='回収'?'回収 '+to:'免除'} ${x.memo}`);render()}
+window.recoverProxy=id=>{const x=data.receivables.find(x=>x.id===id);if(!x)return;const raw=prompt(`回収額（残 ${x.remaining}円）`,String(x.remaining));if(raw===null)return;const amount=Math.min(+raw||0,x.remaining);if(!amount)return;const to=prompt('入金先','財布')||'財布';const kind=confirm('「OK」=回収、「キャンセル」=免除')?'回収':'免除';x.remaining-=amount;if(x.remaining<=0){x.remaining=0;x.status='paid'};if(kind==='回収'&&data.balances[to]!==undefined)data.balances[to]+=amount;data.recoveries.push({id:uid(),receivableId:id,date:entryDate(),memo:x.memo,amount,to,kind});data.draft.push(`代理 ${amount} ${kind==='回収'?'回収 '+to:'免除'} ${x.memo}`);render()}
 window.delEntry=id=>{const e=data.entries.find(x=>x.id===id);if(!confirm('この履歴を削除しますか？残高は自動では戻りません。'))return;data.entries=data.entries.filter(x=>x.id!==id);if(e?.category==='代理')data.receivables=data.receivables.filter(x=>x.entryId!==id);render()};window.delInstall=id=>{data.installments=data.installments.filter(x=>x.id!==id);render()}
 function addInstall(){const name=q('installName').value.trim(),card=q('installCard').value,category=q('installCat').value,amount=+q('installAmount').value,startYM=q('installStart').value,endYM=q('installEnd').value;if(!name||!amount||!startYM||!endYM)return toast('分割情報を入力');data.installments.push({id:uid(),name,card,category,amount,startYM,endYM});['installName','installAmount','installStart','installEnd'].forEach(id=>q(id).value='');render()}
 function editOpening(){for(const k of moneyMethods){const v=prompt(`${k}の月初資金`,String(data.openingBalances?.[k]??data.balances[k]??0));if(v===null)continue;if(Number.isFinite(+v))data.openingBalances[k]=+v}render()}
