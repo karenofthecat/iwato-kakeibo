@@ -46,7 +46,7 @@
 <main id="view-report" class="hidden"><section class="card"><h2>📄 月次メモ</h2><div class="out" id="reportBox"></div><button id="copyReport">月次メモをコピー</button></section><section class="card"><h2>⚙️ 設定・バックアップ</h2><div class="row"><div><label>表示年</label><input id="year" type="number"></div><div><label>表示月</label><input id="month" type="number"></div></div><button id="saveYM">年月保存</button><button class="secondary" id="importLegacy">旧v0.5データを再取込</button><button class="secondary" id="fullJulyRecovery">v0.6.5の7月末データを完全復旧</button><button class="secondary" id="restoreAugustChat">8月チャット記録を復旧</button><button class="secondary" id="cleanupDuplicates">重複明細を整理</button><label>バックアップ</label><textarea id="backup"></textarea><div class="row"><button id="copyBackup">コピー</button><button class="secondary" id="restoreBackup">貼付内容から復元</button></div><button class="danger" id="reset">全データ初期化</button></section><section class="card"><div class="section-title"><h2>💾 復元ポイント</h2><span class="pill">最大10件</span></div><button class="secondary" id="saveRestorePoint">現在の状態を保存</button><div class="list" id="restorePointList" style="margin-top:10px"></div></section></main>
 <div class="toast" id="toast"></div>
 <script>
-const VERSION='0.7.10',KEY='iwato-kakeibo-v06',OLD_KEY='iwato-kakeibo-v01';
+const VERSION='0.7.11',KEY='iwato-kakeibo-v06',OLD_KEY='iwato-kakeibo-v01';
 const categories=['食費・カフェ','住居・日用品','キッチン用品','コーヒー・焙煎設備','医薬品','健康・サプリ','通信費','光熱費','娯楽','服飾','美容・身だしなみ','交通・駐車場','代理','その他'];
 const methods=['財布','PayPay残高','口座','楽天カード','Amazonカード','PayPayカード','ICOCA','J-Coin','楽天ポイント'];
 const cardMethods=['楽天カード','Amazonカード','PayPayカード'], moneyMethods=['財布','PayPay残高','口座','ICOCA','J-Coin','楽天ポイント'];
@@ -112,6 +112,22 @@ d.entries=d.entries||[];d.installments=d.installments||[];d.receivables=d.receiv
   d.openingBalances={...(d.openingBalances||{}),口座:98869};d.balances={...(d.balances||{}),口座:98869};
   if(d.cashPlan['8月'])d.cashPlan['8月'].start=98869;
   if(july)july.balances={...(july.balances||{}),口座:98869};
+ }
+ // v0.7.11: 2026-08 bank statement reconciliation. Keep bank debits separate from expense categories.
+ if(d.year===2026&&d.month===8){
+  const augDebits=[
+   ['2026-08-10','ごうぎんVISA',2973,'fixed'],['2026-08-26','損害保険',10415,'fixed'],['2026-08-26','三井住友カード',40663,'card'],
+   ['2026-08-27','アフラック',6104,'fixed'],['2026-08-27','Paidy',5407,'fixed'],['2026-08-27','ガス',1418,'fixed'],['2026-08-27','オリコ',6640,'fixed'],
+   ['2026-08-27','楽天カード',63539,'card'],['2026-08-27','PayPayカード',30625,'card'],['2026-08-28','水道',1710,'fixed'],['2026-08-28','下水道',3290,'fixed']
+  ];
+  if(!d.entries.some(e=>e.type==='bankDebit'&&e.billYM==='2026-08')){
+   for(const [date,memo,amount,bankGroup] of augDebits)d.entries.push({id:uid(),type:'bankDebit',date,method:'口座',amount,memo,bankGroup,billYM:'2026-08',label:`口座引落 ${amount} 口座 ${memo}`,affectBalance:false});
+  }
+  const opening=+d.openingBalances?.['口座']||0;
+  const augIncome=(d.entries||[]).filter(e=>e.type==='income'&&e.method==='口座'&&String(e.date||'').startsWith('2026-08')).reduce((a,e)=>a+(+e.amount||0),0);
+  const debitTotal=augDebits.reduce((a,x)=>a+x[2],0);
+  // Only auto-correct the known August state when the opening balance and statement income reconcile.
+  if(opening===98869&&augIncome===193060)d.balances['口座']=opening+augIncome-debitTotal;
  }
  d.version=VERSION;return d
 }
@@ -320,13 +336,23 @@ function cashFlowRows(){
    const afterDay=afterPay+(+p.dayIncome||0);
    rows.push({month:mn,billYM,start,afterNight,fixed,other,totalPay:fixed+other,afterPay,afterDay,otherIncomeAdjustment,actual:true});prev=afterDay;return
   }
-  const start=(+p.start||0)>0?+p.start:(prev??0),afterNight=start+(+p.nightIncome||0);
-  const cardNormal=cardMethods.reduce((a,c)=>a+cardRows(c,billYM).reduce((z,x)=>z+(+x.amount||0),0),0);
-  const fixed=fixedTotalForMonth(billYM),other=(+p.baseOther||0)+cardNormal,totalPay=fixed+other,afterPay=afterNight-totalPay,adjustment=+p.closingAdjustment||0,afterDay=afterPay+(+p.dayIncome||0)+adjustment;
-  rows.push({month:mn,billYM,start,afterNight,fixed,other,totalPay,afterPay,afterDay,adjustment,actual:false});prev=afterDay
+  const monthEntries=(data.entries||[]).filter(e=>String(e.date||'').startsWith(billYM));
+  const nightActual=monthEntries.filter(e=>e.type==='income'&&e.method==='口座'&&String(e.memo||'').includes('夜職給与')).reduce((a,e)=>a+(+e.amount||0),0);
+  const dayActual=monthEntries.filter(e=>e.type==='income'&&e.method==='口座'&&String(e.memo||'').includes('昼職給与')).reduce((a,e)=>a+(+e.amount||0),0);
+  const otherIncomeActual=monthEntries.filter(e=>e.type==='income'&&e.method==='口座'&&!String(e.memo||'').includes('夜職給与')&&!String(e.memo||'').includes('昼職給与')).reduce((a,e)=>a+(+e.amount||0),0);
+  const bankDebits=monthEntries.filter(e=>e.type==='bankDebit'&&e.method==='口座');
+  const hasActualBank=bankDebits.length>0;
+  const start=(+p.start||0)>0?+p.start:(billYM===currentYM()?+data.openingBalances?.口座||0:(prev??0));
+  const night=nightActual||(+p.nightIncome||0),day=dayActual||(+p.dayIncome||0);
+  const afterNight=start+otherIncomeActual+night;
+  let fixed,other;
+  if(hasActualBank){fixed=bankDebits.filter(e=>e.bankGroup!=='card').reduce((a,e)=>a+(+e.amount||0),0);other=bankDebits.filter(e=>e.bankGroup==='card').reduce((a,e)=>a+(+e.amount||0),0)}
+  else{const cardNormal=cardMethods.reduce((a,c)=>a+cardRows(c,billYM).reduce((z,x)=>z+(+x.amount||0),0),0);fixed=fixedTotalForMonth(billYM);other=(+p.baseOther||0)+cardNormal}
+  const totalPay=fixed+other,afterPay=afterNight-totalPay,adjustment=+p.closingAdjustment||0,afterDay=afterPay+day+adjustment;
+  rows.push({month:mn,billYM,start,afterNight,fixed,other,totalPay,afterPay,afterDay,adjustment,otherIncomeAdjustment:otherIncomeActual,actualIncome:!!(nightActual||dayActual),actualBank:hasActualBank,actual:false});prev=afterDay
  }); return rows
 }
-function renderCashflow(){q('cashflowList').innerHTML=cashFlowRows().map(r=>`<div class="item"><div><b>${r.month}${r.actual?' 🔒確定':''}</b><br><span class="mono">月初 ${yen(r.start)} / 夜職後 ${yen(r.afterNight)}<br>固定 ${yen(r.fixed)} / 固定以外 ${yen(r.other)}${r.otherIncomeAdjustment?`<br>その他入金・調整 ${r.otherIncomeAdjustment>0?'+':''}${yen(r.otherIncomeAdjustment)}`:''}<br>支払い後 ${yen(r.afterPay)} / 昼職後 ${yen(r.afterDay)}${r.adjustment&&!r.actual?`<br>月末残高調整 ${r.adjustment>0?'+':''}${yen(r.adjustment)}`:''}</span></div></div>`).join('')}
+function renderCashflow(){q('cashflowList').innerHTML=cashFlowRows().map(r=>`<div class="item"><div><b>${r.month}${r.actual?' 🔒確定':''}${r.actualBank?' 🏦通帳実績':''}</b><br><span class="mono">月初 ${yen(r.start)} / 夜職後 ${yen(r.afterNight)}${r.actualIncome?'（実績）':''}<br>固定 ${yen(r.fixed)} / 固定以外 ${yen(r.other)}${r.otherIncomeAdjustment?`<br>その他入金 ${r.otherIncomeAdjustment>0?'+':''}${yen(r.otherIncomeAdjustment)}`:''}<br>支払い後 ${yen(r.afterPay)} / 昼職後 ${yen(r.afterDay)}${r.actualIncome?'（実績）':''}${r.adjustment&&!r.actual?`<br>月末残高調整 ${r.adjustment>0?'+':''}${yen(r.adjustment)}`:''}</span></div></div>`).join('')}
 function renderAnalysis(){renderCashflow();const s=catSums(),rows=Object.entries(s).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);q('catGraph').innerHTML=rows.length?rows.map(([k,v])=>`<div class="item"><div><b>${k}</b></div><b>${yen(v)}</b></div>`).join(''):'<p class="small">データなし</p>';q('snapshotList').innerHTML=data.snapshots.length?[...data.snapshots].reverse().map(x=>`<div class="item"><div><b>${x.ym}</b><br><span>支出 ${yen(x.totalExpense)} / 未回収 ${yen(x.proxyTotal)}</span></div></div>`).join(''):'<p class="small">月締め履歴なし</p>'}
 function report(){const s=catSums(),total=Object.entries(s).filter(([k])=>k!=='代理').reduce((a,[,v])=>a+v,0);const bals={...data.balances,'未回収代理':proxySum()};const bal=Object.entries(bals).map(([k,v])=>`| ${k} | ${yen(v)} |`).join('\n');const cats=categories.filter(c=>c!=='代理').map(c=>`| ${c} | ${yen(s[c]||0)} |`).join('\n');const cards=cardMethods.map(c=>`| ${c} | ${yen(allCardRows(c,currentYM()).all.reduce((a,x)=>a+x.amount,0))} |`).join('\n');return `# 家計簿 ${data.year}年${data.month}月 メモ\n\n## 現在残高\n\n| 種別 | 金額 |\n|---|---:|\n${bal}\n\n## 費目別支出（端末入力分＋分割）\n\n| 費目 | 金額 |\n|---|---:|\n${cats}\n| 合計 | ${yen(total)} |\n\n## カード請求見込み\n\n| カード | 金額 |\n|---|---:|\n${cards}\n\n※正式な月次締めはChatGPT記録とCSV照合を優先。`}
 function renderReport(){q('reportBox').textContent=report();q('year').value=data.year;q('month').value=data.month;q('backup').value=JSON.stringify(data,null,2);const rp=data.restorePoints||[];q('restorePointList').innerHTML=rp.length?rp.map(x=>`<div class="item"><div><b>${x.label}</b><br><span>${new Date(x.createdAt).toLocaleString('ja-JP')}</span></div><button class="mini secondary" onclick="restorePoint('${x.id}')">復元</button></div>`).join(''):'<p class="small">復元ポイントはまだありません。</p>'}
