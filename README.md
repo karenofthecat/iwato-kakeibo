@@ -1,4 +1,4 @@
-# iwato家計簿 v0.7.13
+# iwato家計簿 v0.7.14
 
 GitHub Pages: https://karenofthecat.github.io/iwato-kakeibo/
 
@@ -12,3 +12,9 @@ GitHub Pages: https://karenofthecat.github.io/iwato-kakeibo/
 - 分析では実績給与がある月は見込み給与より実績を優先。
 - 暦が翌月へ進んでも家計簿の表示月が前月のままなら、新規入力は表示中の月末日へ記録するよう修正。月締め前の追加入力が翌月扱いになる問題を防止。
 - Service Worker のキャッシュ名を更新し、旧版表示が残りにくいよう修正。
+
+
+## 0.7.14
+- 口座払いの通常支出を資金推移へ反映。
+- 月締め時は分析画面と同じ資金推移を確定保存。
+- 確定月は実績給与・その他口座入金を保持し、旧見込み額へ戻らないよう修正。
