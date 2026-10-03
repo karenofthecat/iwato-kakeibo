@@ -17,7 +17,7 @@
 .fixed-row{border-color:#355440;background:#1b221d}
 .card-total-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}@media(max-width:430px){.row,.grid{grid-template-columns:1fr 1fr}.triple{grid-template-columns:1fr}.tabs{gap:4px}.tab{font-size:10px;padding:10px 1px}.card{padding:14px}}
 </style></head><body>
-<header><div class="brand"><img class="appicon" src="./icon.png" alt=""><div><h1>iwato家計簿</h1><div class="sub">v0.7.14 口座払い反映修正</div></div></div><div class="badge" id="monthBadge"></div></header>
+<header><div class="brand"><img class="appicon" src="./icon.png" alt=""><div><h1>iwato家計簿</h1><div class="sub">v0.7.15 口座残高統合修正</div></div></div><div class="badge" id="monthBadge"></div></header>
 <nav class="tabs"><button class="tab active" data-view="home">ホーム</button><button class="tab" data-view="input">入力</button><button class="tab" data-view="card">カード</button><button class="tab" data-view="proxy">代理</button><button class="tab" data-view="fixed">固定費</button><button class="tab" data-view="analysis">分析</button><button class="tab" data-view="report">出力</button></nav>
 <main id="view-home"><section class="card"><h2>🏠 現在残高</h2><div class="grid" id="homeMetrics"></div></section><section class="card"><div class="section-title"><h2>月初資金</h2><span class="pill" id="openingLabel"></span></div><div class="grid" id="openingMetrics"></div><button class="secondary" id="editOpening">月初資金を修正</button></section><section class="card"><h2>月をまたぐ</h2><p class="small">現在月を締めてスナップショットを保存し、現在残高と未回収代理を次月へ繰り越します。</p><button id="closeMonth">今月を締めて翌月を開始</button></section></main>
 <main id="view-input" class="hidden"><section class="card"><h2>＋ 支出入力</h2><div class="row"><div><label>費目</label><select id="cat"></select></div><div><label>支払元</label><select id="method"></select></div></div><label>金額</label><input id="amount" type="number" inputmode="numeric" placeholder="例：8570"><label>メモ</label><input id="memo" placeholder="例：Aillioファン"><div class="row"><div><label>請求年月（カード時）</label><input id="billMonth" type="month"></div><div><label>残高反映</label><select id="affectBalance"><option value="yes">反映する</option><option value="no">過去分・反映しない</option></select></div></div><button id="addExpense">追加</button></section><section class="card"><h2>＋ 入金</h2><div class="row"><div><label>入金先</label><select id="incomeTo"></select></div><div><label>金額</label><input id="incomeAmount" type="number" inputmode="numeric"></div></div><label>内容</label><input id="incomeMemo" placeholder="例：夜職給与"><button id="addIncome">入金する</button></section><section class="card"><h2>残高補正</h2><div class="row"><div><label>項目</label><select id="fixMethod"></select></div><div><label>実残高</label><input id="fixAmount" type="number" inputmode="numeric"></div></div><button class="secondary" id="balanceFix">補正する</button></section><section class="card"><h2>ChatGPTへ貼る文</h2><div class="out" id="copyBox"></div><button id="copy">コピー</button><button class="secondary" id="clearDraft">貼り付け文だけクリア</button></section><section class="card"><h2>最近の入力</h2><div class="list scrollbox" id="recent"></div></section><section class="card"><h2>📥 ChatGPT形式を貼り付け</h2><p class="small">【支出】【残高】を含む文章をそのまま貼り付けます。同一文章内は上から下へ時系列として処理します。</p><textarea id="chatImport" placeholder="【支出】&#10;食費・カフェ 447 PayPay残高 丸合&#10;【残高】&#10;PayPay残高 2612"></textarea><button id="importChatText">取り込む</button></section></main>
@@ -46,7 +46,7 @@
 <main id="view-report" class="hidden"><section class="card"><h2>📄 月次メモ</h2><div class="out" id="reportBox"></div><button id="copyReport">月次メモをコピー</button></section><section class="card"><h2>⚙️ 設定・バックアップ</h2><div class="row"><div><label>表示年</label><input id="year" type="number"></div><div><label>表示月</label><input id="month" type="number"></div></div><button id="saveYM">年月保存</button><button class="secondary" id="importLegacy">旧v0.5データを再取込</button><button class="secondary" id="fullJulyRecovery">v0.6.5の7月末データを完全復旧</button><button class="secondary" id="restoreAugustChat">8月チャット記録を復旧</button><button class="secondary" id="cleanupDuplicates">重複明細を整理</button><label>バックアップ</label><textarea id="backup"></textarea><div class="row"><button id="copyBackup">コピー</button><button class="secondary" id="restoreBackup">貼付内容から復元</button></div><button class="danger" id="reset">全データ初期化</button></section><section class="card"><div class="section-title"><h2>💾 復元ポイント</h2><span class="pill">最大10件</span></div><button class="secondary" id="saveRestorePoint">現在の状態を保存</button><div class="list" id="restorePointList" style="margin-top:10px"></div></section></main>
 <div class="toast" id="toast"></div>
 <script>
-const VERSION='0.7.14',KEY='iwato-kakeibo-v06',OLD_KEY='iwato-kakeibo-v01';
+const VERSION='0.7.15',KEY='iwato-kakeibo-v06',OLD_KEY='iwato-kakeibo-v01';
 const categories=['食費・カフェ','住居・日用品','キッチン用品','コーヒー・焙煎設備','医薬品','健康・サプリ','通信費','光熱費','娯楽','服飾','美容・身だしなみ','交通・駐車場','代理','その他'];
 const methods=['財布','PayPay残高','口座','楽天カード','Amazonカード','PayPayカード','ICOCA','J-Coin','楽天ポイント'];
 const cardMethods=['楽天カード','Amazonカード','PayPayカード'], moneyMethods=['財布','PayPay残高','口座','ICOCA','J-Coin','楽天ポイント'];
@@ -147,6 +147,21 @@ d.entries=d.entries||[];d.installments=d.installments||[];d.receivables=d.receiv
   // Only auto-correct the known August state when the opening balance and statement income reconcile.
   if(opening===98869&&augIncome===193060)d.balances['口座']=opening+augIncome-debitTotal;
  }
+ // v0.7.15: 2026-09 bank statement reconciliation.
+ // These are actual account withdrawals from the uploaded bank CSV. They are cash-flow rows only,
+ // so they do not duplicate expense categories/card purchase records.
+ if(d.year===2026&&d.month===9){
+  const sepDebits=[
+   ['2026-09-10','ごうぎんVISA',2973],['2026-09-28','損害保険',10415],['2026-09-28','アフラック',6104],
+   ['2026-09-28','Paidy',5407],['2026-09-28','三井住友カード',11877],['2026-09-28','ガス',2598],
+   ['2026-09-28','楽天カード',17075],['2026-09-28','水道',1840],['2026-09-28','下水道',3290],
+   ['2026-09-28','オリコ',6640],['2026-09-28','PayPayカード',43920]
+  ];
+  for(const [date,memo,amount] of sepDebits){
+   if(!d.entries.some(e=>e.type==='bankDebit'&&e.date===date&&e.memo===memo&&+e.amount===amount))
+    d.entries.push({id:uid(),type:'bankDebit',date,method:'口座',amount,memo,bankGroup:'statement',billYM:'2026-09',label:`口座引落 ${amount} 口座 ${memo}`,affectBalance:false});
+  }
+ }
  d.version=VERSION;return d
 }
 const blank=()=>({version:VERSION,year:2026,month:8,cardViewMonth:'2026-08',balances:{口座:98869,財布:5149,PayPay残高:6560,ICOCA:1380,'J-Coin':1,楽天ポイント:88},openingBalances:{口座:98869,財布:5149,PayPay残高:6560,ICOCA:1380,'J-Coin':1,楽天ポイント:88},entries:[],installments:[],confirmedCards:[],receivables:[],recoveries:[],restorePoints:[],snapshots:[],fixedCosts:defaultFixedCosts(),draft:[],cashPlan:defaultCashPlan()});
@@ -216,7 +231,23 @@ function proxyOpen(){return data.receivables.filter(x=>x.remaining>0)}
 function proxySum(){return proxyOpen().reduce((a,x)=>a+(+x.remaining||0),0)}
 function render(){q('monthBadge').textContent=`${data.year}/${data.month}`;q('openingLabel').textContent=currentYM();sel('cat',categories);sel('method',methods);sel('incomeTo',moneyMethods);sel('fixMethod',moneyMethods);q('billMonth').value=q('billMonth').value||currentYM();renderHome();renderInput();renderCards();renderProxy();renderFixed();renderAnalysis();renderReport();save()}
 function metricHTML(obj){return Object.entries(obj).map(([k,v])=>`<div class="metric"><div class="name">${k}</div><div class="val">${yen(v)}</div></div>`).join('')}
-function renderHome(){q('homeMetrics').innerHTML=metricHTML({...data.balances,'未回収代理':proxySum()});q('openingMetrics').innerHTML=metricHTML(data.openingBalances||{})}
+function ledgerBalanceFor(method,billYM=currentYM()){
+ let bal=+(data.openingBalances?.[method]||0);
+ const rows=(data.entries||[]).filter(e=>String(e.date||'').startsWith(billYM)&&e.method===method);
+ for(const e of rows){
+  if(e.type==='balance'){bal=+e.amount||0;continue}
+  if(e.type==='income'){bal+=+e.amount||0;continue}
+  if(e.type==='bankDebit'){bal-=+e.amount||0;continue}
+  if(e.type==='expense'&&e.affectBalance!==false){bal-=+e.amount||0;continue}
+ }
+ return bal
+}
+function syncCurrentAccount(){
+ // The account balance is derived from the current month's ledger so deleting/re-entering an item
+ // cannot leave a phantom subtraction in the mutable balance value.
+ data.balances['口座']=ledgerBalanceFor('口座',currentYM());
+}
+function renderHome(){syncCurrentAccount();q('homeMetrics').innerHTML=metricHTML({...data.balances,'未回収代理':proxySum()});q('openingMetrics').innerHTML=metricHTML(data.openingBalances||{})}
 function renderInput(){q('copyBox').textContent=data.draft.length?['【支出】',...data.draft].join('\n'):'まだ入力がありません。';q('recent').innerHTML=data.entries.length?[...data.entries].slice(-30).reverse().map(e=>`<div class="item"><div><b>${e.label||e.memo||e.type}</b><br><span>${e.date}</span></div><button class="mini secondary" onclick="delEntry('${e.id}')">削除</button></div>`).join(''):'<p class="small">まだ履歴がありません。</p>'}
 function renderCards(){
  q('cardViewMonth').value=data.cardViewMonth||currentYM();
@@ -374,8 +405,10 @@ function cashFlowRows(){
   const afterNight=start+otherIncomeActual+night;
   let fixed,other;
   if(hasActualBank){
-   fixed=bankDebits.filter(e=>e.bankGroup!=='card').reduce((a,e)=>a+(+e.amount||0),0);
-   other=bankDebits.filter(e=>e.bankGroup==='card').reduce((a,e)=>a+(+e.amount||0),0)+directBankExpenses.reduce((a,e)=>a+(+e.amount||0),0)
+   const statementTotal=bankDebits.reduce((a,e)=>a+(+e.amount||0),0);
+   // Keep the familiar fixed/non-fixed presentation, but anchor their combined total to the bank statement.
+   fixed=fixedTotalForMonth(billYM);
+   other=Math.max(0,statementTotal-fixed)+directBankExpenses.reduce((a,e)=>a+(+e.amount||0),0)
   }
   else{const cardNormal=cardMethods.reduce((a,c)=>a+cardRows(c,billYM).reduce((z,x)=>z+(+x.amount||0),0),0);fixed=fixedTotalForMonth(billYM);other=(+p.baseOther||0)+cardNormal}
   const totalPay=fixed+other,afterPay=afterNight-totalPay,adjustment=+p.closingAdjustment||0,afterDay=afterPay+day+adjustment;
@@ -601,7 +634,7 @@ window.recoverProxy=id=>{const x=data.receivables.find(x=>x.id===id);if(!x)retur
 window.delEntry=id=>{const e=data.entries.find(x=>x.id===id);if(!confirm('この履歴を削除しますか？残高は自動では戻りません。'))return;data.entries=data.entries.filter(x=>x.id!==id);if(e?.category==='代理')data.receivables=data.receivables.filter(x=>x.entryId!==id);render()};window.delInstall=id=>{data.installments=data.installments.filter(x=>x.id!==id);render()}
 function addInstall(){const name=q('installName').value.trim(),card=q('installCard').value,category=q('installCat').value,amount=+q('installAmount').value,startYM=q('installStart').value,endYM=q('installEnd').value;if(!name||!amount||!startYM||!endYM)return toast('分割情報を入力');data.installments.push({id:uid(),name,card,category,amount,startYM,endYM});['installName','installAmount','installStart','installEnd'].forEach(id=>q(id).value='');render()}
 function editOpening(){for(const k of moneyMethods){const v=prompt(`${k}の月初資金`,String(data.openingBalances?.[k]??data.balances[k]??0));if(v===null)continue;if(Number.isFinite(+v))data.openingBalances[k]=+v}render()}
-function closeMonth(){addRestorePoint(`${currentYM()} 月締め前`);if(!confirm(`${data.year}年${data.month}月を締めて翌月へ進みますか？`))return;
+function closeMonth(){syncCurrentAccount();addRestorePoint(`${currentYM()} 月締め前`);if(!confirm(`${data.year}年${data.month}月を締めて翌月へ進みますか？`))return;
  const closingYM=currentYM(),s=catSums(),total=Object.values(s).reduce((a,b)=>a+b,0);
  // Freeze the same cash-flow calculation currently shown in Analysis.
  // This prevents month-close from reverting to the older category/forecast formula.
