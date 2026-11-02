@@ -2,7 +2,7 @@
 <html lang="ja"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b0b0c"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="iwato家計簿"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="./manifest.json"><link rel="icon" href="./icon.png"><title>iwato家計簿 v0.7.16</title>
+<link rel="manifest" href="./manifest.json"><link rel="icon" href="./icon.png"><title>iwato家計簿 v0.7.17</title>
 <style>
 :root{--bg:#0b0b0c;--card:#17171b;--card2:#24242a;--text:#f6f6f6;--muted:#a1a1aa;--line:#34343b;--green:#98e6aa;--yellow:#f2d36b;--red:#ff8989}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;padding:env(safe-area-inset-top) 14px calc(28px + env(safe-area-inset-bottom));background:radial-gradient(circle at top,#242428 0,#0b0b0c 45%,#080809 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",Meiryo,sans-serif}header{display:flex;align-items:center;justify-content:space-between;padding:16px 2px 10px}.brand{display:flex;gap:10px;align-items:center}.appicon{width:48px;height:48px;border-radius:14px;object-fit:cover;background:#fff}h1{font-size:22px;margin:0}.sub{font-size:12px;color:var(--muted);margin-top:4px}.badge{font-size:12px;color:#111;background:#f5f5f5;border-radius:999px;padding:7px 10px;font-weight:900}.tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;position:sticky;top:0;z-index:10;background:rgba(11,11,12,.94);backdrop-filter:blur(10px);padding:9px 0}.tab{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:12px;padding:11px 0;font-size:11px;font-weight:800;margin:0}.tab.active{background:#f5f5f5;color:#111}.card{background:rgba(23,23,27,.96);border:1px solid var(--line);border-radius:20px;padding:16px;margin:12px 0;box-shadow:0 14px 32px rgba(0,0,0,.28)}h2{font-size:16px;margin:0 0 12px}h3{font-size:14px;margin:0}label{display:block;font-size:12px;color:var(--muted);margin:12px 0 6px}input,select,textarea{width:100%;background:var(--card2);color:var(--text);border:1px solid var(--line);border-radius:14px;padding:13px 12px;font-size:16px;outline:none}textarea{min-height:110px}.row,.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.triple{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}button{width:100%;border:0;border-radius:15px;padding:14px 12px;font-size:15px;font-weight:900;background:#f5f5f5;color:#111;margin-top:10px;touch-action:manipulation}button.secondary{background:var(--card2);color:var(--text);border:1px solid var(--line)}button.danger{background:#2b1518;color:#ffb6b6;border:1px solid #5a2a30}.mini{width:auto;padding:9px 11px;font-size:12px;border-radius:11px;margin:0}.metric{background:var(--card2);border:1px solid var(--line);border-radius:16px;padding:12px}.metric .name{font-size:12px;color:var(--muted)}.metric .val{font-size:20px;font-weight:950;margin-top:5px}.out{background:#09090a;border:1px dashed #5b5b63;border-radius:15px;padding:12px;white-space:pre-wrap;line-height:1.6;min-height:80px;font-size:14px}.list{display:flex;flex-direction:column;gap:8px}.scrollbox{max-height:55vh;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-right:2px}.item{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:11px;display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}.item b{font-size:14px}.item span{font-size:12px;color:var(--muted);line-height:1.45}.actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.actions .mini{min-width:52px}.refund{background:#18251d!important;color:#b9f4c5!important;border:1px solid #31543a!important}.hidden{display:none}.small{font-size:12px;color:var(--muted);line-height:1.65}.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:#f5f5f5;color:#111;padding:11px 15px;border-radius:999px;font-weight:900;font-size:13px;opacity:0;transition:.2s;z-index:99;pointer-events:none}.toast.show{opacity:1;bottom:34px}.details{border:1px solid var(--line);border-radius:16px;background:var(--card2);overflow:hidden}.details+ .details{margin-top:10px}.details summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px;cursor:pointer;font-weight:900}.details summary::-webkit-details-marker{display:none}.details summary:after{content:'＋';color:var(--muted)}.details[open] summary:after{content:'−'}.details-body{padding:0 10px 10px}.status{display:inline-block;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:900;background:#333}.status.open{color:#151515;background:var(--yellow)}.status.paid{color:#151515;background:var(--green)}.divider{height:1px;background:var(--line);margin:10px 0}.toolbar{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.toolbar button{width:auto;min-width:84px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px}.pill{font-size:11px;padding:5px 8px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
 .fixed-head{display:flex;justify-content:space-between;gap:8px;align-items:center}
@@ -17,7 +17,7 @@
 .fixed-row{border-color:#355440;background:#1b221d}
 .card-total-note{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}@media(max-width:430px){.row,.grid{grid-template-columns:1fr 1fr}.triple{grid-template-columns:1fr}.tabs{gap:4px}.tab{font-size:10px;padding:10px 1px}.card{padding:14px}}
 </style></head><body>
-<header><div class="brand"><img class="appicon" src="./icon.png" alt=""><div><h1>iwato家計簿</h1><div class="sub">v0.7.16 給与実績・完了分整理</div></div></div><div class="badge" id="monthBadge"></div></header>
+<header><div class="brand"><img class="appicon" src="./icon.png" alt=""><div><h1>iwato家計簿</h1><div class="sub">v0.7.17 給与実績・口座連動</div></div></div><div class="badge" id="monthBadge"></div></header>
 <nav class="tabs"><button class="tab active" data-view="home">ホーム</button><button class="tab" data-view="input">入力</button><button class="tab" data-view="card">カード</button><button class="tab" data-view="proxy">代理</button><button class="tab" data-view="fixed">固定費</button><button class="tab" data-view="analysis">分析</button><button class="tab" data-view="report">出力</button></nav>
 <main id="view-home"><section class="card"><h2>🏠 現在残高</h2><div class="grid" id="homeMetrics"></div></section><section class="card"><div class="section-title"><h2>月初資金</h2><span class="pill" id="openingLabel"></span></div><div class="grid" id="openingMetrics"></div><button class="secondary" id="editOpening">月初資金を修正</button></section><section class="card"><h2>月をまたぐ</h2><p class="small">現在月を締めてスナップショットを保存し、現在残高と未回収代理を次月へ繰り越します。</p><button id="closeMonth">今月を締めて翌月を開始</button></section></main>
 <main id="view-input" class="hidden"><section class="card"><h2>＋ 支出入力</h2><div class="row"><div><label>費目</label><select id="cat"></select></div><div><label>支払元</label><select id="method"></select></div></div><label>金額</label><input id="amount" type="number" inputmode="numeric" placeholder="例：8570"><label>メモ</label><input id="memo" placeholder="例：Aillioファン"><div class="row"><div><label>請求年月（カード時）</label><input id="billMonth" type="month"></div><div><label>残高反映</label><select id="affectBalance"><option value="yes">反映する</option><option value="no">過去分・反映しない</option></select></div></div><button id="addExpense">追加</button></section><section class="card"><h2>＋ 入金</h2><div class="row"><div><label>入金先</label><select id="incomeTo"></select></div><div><label>金額</label><input id="incomeAmount" type="number" inputmode="numeric"></div></div><label>内容</label><input id="incomeMemo" placeholder="例：夜職給与"><button id="addIncome">入金する</button></section><section class="card"><h2>残高補正</h2><div class="row"><div><label>項目</label><select id="fixMethod"></select></div><div><label>実残高</label><input id="fixAmount" type="number" inputmode="numeric"></div></div><button class="secondary" id="balanceFix">補正する</button></section><section class="card"><h2>ChatGPTへ貼る文</h2><div class="out" id="copyBox"></div><button id="copy">コピー</button><button class="secondary" id="clearDraft">貼り付け文だけクリア</button></section><section class="card"><h2>最近の入力</h2><div class="list scrollbox" id="recent"></div></section><section class="card"><h2>📥 ChatGPT形式を貼り付け</h2><p class="small">【支出】【残高】を含む文章をそのまま貼り付けます。同一文章内は上から下へ時系列として処理します。</p><textarea id="chatImport" placeholder="【支出】&#10;食費・カフェ 447 PayPay残高 丸合&#10;【残高】&#10;PayPay残高 2612"></textarea><button id="importChatText">取り込む</button></section></main>
@@ -41,7 +41,7 @@
 <section class="card"><h2>停止済み</h2><div class="list" id="fixedInactiveList"></div></section>
 <section class="card"><details class="details"><summary id="fixedArchivedLabel">一覧から整理した支払い</summary><div class="details-body"><div class="list" id="fixedArchivedList"></div></div></details></section>
 </main><main id="view-analysis" class="hidden">
-<section class="card"><h2>💴 給与実績の入力</h2><p class="small">月別の暫定給与を実績に置き換えます。実績を登録しても二重計上されません。この画面は分析専用です。口座への入金は「入力」タブで別途記録してください。</p>
+<section class="card"><h2>💴 給与実績の入力</h2><p class="small">月別の暫定給与を実績に置き換え、当月分はホームの口座残高にも反映します。既存の「夜職給与」「昼職給与」入金履歴とは二重計上しません。給与後の残高補正があれば、その実残高を優先します。</p>
 <label>対象年月</label><input type="month" id="salaryMonth">
 <div class="row"><div><label>夜職給与（実績・円）</label><input id="salaryNight" type="number" inputmode="numeric" min="0" placeholder="未入力なら暫定"></div><div><label>昼職給与（実績・円）</label><input id="salaryDay" type="number" inputmode="numeric" min="0" placeholder="未入力なら暫定"></div></div>
 <p class="small" id="salaryStatus"></p><div class="row"><button id="saveSalary">給与実績を保存</button><button class="secondary" id="clearSalary">手入力を解除</button></div></section>
@@ -52,7 +52,7 @@
 <main id="view-report" class="hidden"><section class="card"><h2>📄 月次メモ</h2><div class="out" id="reportBox"></div><button id="copyReport">月次メモをコピー</button></section><section class="card"><h2>⚙️ 設定・バックアップ</h2><div class="row"><div><label>表示年</label><input id="year" type="number"></div><div><label>表示月</label><input id="month" type="number"></div></div><button id="saveYM">年月保存</button><button class="secondary" id="importLegacy">旧v0.5データを再取込</button><button class="secondary" id="fullJulyRecovery">v0.6.5の7月末データを完全復旧</button><button class="secondary" id="restoreAugustChat">8月チャット記録を復旧</button><button class="secondary" id="cleanupDuplicates">重複明細を整理</button><label>バックアップ</label><textarea id="backup"></textarea><div class="row"><button id="copyBackup">コピー</button><button class="secondary" id="restoreBackup">貼付内容から復元</button></div><button class="danger" id="reset">全データ初期化</button></section><section class="card"><div class="section-title"><h2>💾 復元ポイント</h2><span class="pill">最大10件</span></div><button class="secondary" id="saveRestorePoint">現在の状態を保存</button><div class="list" id="restorePointList" style="margin-top:10px"></div></section></main>
 <div class="toast" id="toast"></div>
 <script>
-const VERSION='0.7.16',KEY='iwato-kakeibo-v06',OLD_KEY='iwato-kakeibo-v01';
+const VERSION='0.7.17',KEY='iwato-kakeibo-v06',OLD_KEY='iwato-kakeibo-v01';
 const categories=['食費・カフェ','住居・日用品','キッチン用品','コーヒー・焙煎設備','医薬品','健康・サプリ','通信費','光熱費','娯楽','服飾','美容・身だしなみ','交通・駐車場','代理','その他'];
 const methods=['財布','PayPay残高','口座','楽天カード','Amazonカード','PayPayカード','ICOCA','J-Coin','楽天ポイント'];
 const cardMethods=['楽天カード','Amazonカード','PayPayカード'], moneyMethods=['財布','PayPay残高','口座','ICOCA','J-Coin','楽天ポイント'];
@@ -237,12 +237,49 @@ function proxyOpen(){return data.receivables.filter(x=>x.remaining>0)}
 function proxySum(){return proxyOpen().reduce((a,x)=>a+(+x.remaining||0),0)}
 function render(){q('monthBadge').textContent=`${data.year}/${data.month}`;q('openingLabel').textContent=currentYM();sel('cat',categories);sel('method',methods);sel('incomeTo',moneyMethods);sel('fixMethod',moneyMethods);q('billMonth').value=q('billMonth').value||currentYM();renderHome();renderInput();renderCards();renderProxy();renderFixed();renderAnalysis();renderReport();save()}
 function metricHTML(obj){return Object.entries(obj).map(([k,v])=>`<div class="metric"><div class="name">${k}</div><div class="val">${yen(v)}</div></div>`).join('')}
+function salaryKindForLedger(e){
+ if(e.type!=='income'||e.method!=='口座')return null;
+ const memo=String(e.memo||'');
+ if(memo.includes('夜職給与'))return 'night';
+ if(memo.includes('昼職給与'))return 'day';
+ return null;
+}
+function salaryPaymentDate(billYM,kind){
+ const day=kind==='night'?25:new Date(+billYM.slice(0,4),+billYM.slice(5,7),0).getDate();
+ return billYM+'-'+String(day).padStart(2,'0');
+}
+function accountLedgerRows(billYM){
+ // Salary actuals replace matching bank income, not supplement it.
+ const rows=(data.entries||[]).filter(e=>String(e.date||'').startsWith(billYM)&&e.method==='口座').map(e=>({...e}));
+ const manual=data.salaryActuals?.[billYM]||{};
+ for(const kind of ['night','day']){
+  if(!Object.prototype.hasOwnProperty.call(manual,kind))continue;
+  const amount=Number(manual[kind]);
+  if(!Number.isSafeInteger(amount)||amount<0)continue;
+  const matches=rows.map((e,i)=>salaryKindForLedger(e)===kind?i:-1).filter(i=>i>=0);
+  if(matches.length){
+   rows[matches[0]].salaryActualOverride=amount;
+   for(const index of matches.slice(1))rows[index].salaryActualSkip=true;
+  }else{
+   // A real balance correction made on or after payday supersedes the virtual deposit.
+   const paidOn=salaryPaymentDate(billYM,kind);
+   const correction=rows.findIndex(e=>e.type==='balance'&&String(e.date||'')>=paidOn);
+   const virtual={type:'income',method:'口座',amount,memo:kind==='night'?'夜職給与':'昼職給与',date:paidOn,salaryVirtual:true};
+   if(correction>=0)rows.splice(correction,0,virtual);else rows.push(virtual);
+  }
+ }
+ return rows;
+}
 function ledgerBalanceFor(method,billYM=currentYM()){
  let bal=+(data.openingBalances?.[method]||0);
- const rows=(data.entries||[]).filter(e=>String(e.date||'').startsWith(billYM)&&e.method===method);
+ const rows=method==='口座'?accountLedgerRows(billYM):(data.entries||[]).filter(e=>String(e.date||'').startsWith(billYM)&&e.method===method);
  for(const e of rows){
   if(e.type==='balance'){bal=+e.amount||0;continue}
-  if(e.type==='income'){bal+=+e.amount||0;continue}
+  if(e.type==='income'){
+   if(e.salaryActualSkip)continue;
+   bal+=e.salaryActualOverride!==undefined?e.salaryActualOverride:(+e.amount||0);
+   continue
+  }
   if(e.type==='bankDebit'){bal-=+e.amount||0;continue}
   if(e.type==='expense'&&e.affectBalance!==false){bal-=+e.amount||0;continue}
  }
@@ -409,7 +446,7 @@ function renderSalary(){
  q('salaryNight').value=Object.prototype.hasOwnProperty.call(stored,'night')?stored.night:'';
  q('salaryDay').value=Object.prototype.hasOwnProperty.call(stored,'day')?stored.day:'';
  const night=salaryForMonth(month,'night',plan.nightIncome,snap),day=salaryForMonth(month,'day',plan.dayIncome,snap);
- q('salaryStatus').textContent=`夜職：${yen(night.amount)}（${night.source}） / 昼職：${yen(day.amount)}（${day.source}）。空欄は既存の入金履歴、それもなければ暫定額を利用します。`;
+ q('salaryStatus').textContent=`夜職：${yen(night.amount)}（${night.source}） / 昼職：${yen(day.amount)}（${day.source}）。空欄は既存の入金履歴、それもなければ暫定額を利用。当月の実績は口座にも反映します。`;
 }
 function saveSalary(){
  const month=q('salaryMonth').value;if(!/^\d{4}-(0[1-9]|1[0-2])$/.test(month))return toast('年月を確認');
