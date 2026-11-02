@@ -160,7 +160,7 @@ function cardRows(card,billYM){const direct=data.entries.filter(e=>(e.type==='ex
 function proxyOpen(){return data.receivables.filter(x=>x.remaining>0)}
 function proxySum(){return proxyOpen().reduce((a,x)=>a+(+x.remaining||0),0)}
 function render(){q('monthBadge').textContent=`${data.year}/${data.month}`;q('openingLabel').textContent=currentYM();sel('cat',categories);sel('method',methods);sel('incomeTo',moneyMethods);sel('fixMethod',moneyMethods);q('billMonth').value=q('billMonth').value||currentYM();renderHome();renderInput();renderCards();renderProxy();renderFixed();renderAnalysis();renderReport();save()}
-function metricHTML(obj){return Object.entries(obj).map(([k,v])=>`<div class="metric"><div class="name">${k}</div><div class="val">${yen(v)}</div></div>`).join('')}
+function metricHTML(obj){return Object.entries(obj).map(([k,v])=>`<div class="metric"><div class="name">${escapeHTML(k)}</div><div class="val">${yen(v)}</div></div>`).join('')}
 function salaryKindForLedger(e){
  if(e.type!=='income'||e.method!=='口座')return null;
  const memo=String(e.memo||'');
@@ -234,12 +234,12 @@ function renderCards(){
  let html='';
  cardMethods.forEach(card=>{
   const groups=allCardRows(card,data.cardViewMonth);
-  const normal=groups.normal.filter(r=>`${escapeHTML(r.memo)} ${escapeHTML(r.category)} ${card}`.toLowerCase().includes(term));
-  const fixed=groups.fixed.filter(r=>`${escapeHTML(r.memo)} ${escapeHTML(r.category)} ${card}`.toLowerCase().includes(term));
+  const normal=groups.normal.filter(r=>`${r.memo} ${r.category} ${card}`.toLowerCase().includes(term));
+  const fixed=groups.fixed.filter(r=>`${r.memo} ${r.category} ${card}`.toLowerCase().includes(term));
   const total=[...normal,...fixed].reduce((a,x)=>a+x.amount,0);
 
   const normalHTML=normal.length
-   ? normal.map(r=>`<div class="item"><div><b>${escapeHTML(r.memo)} ${yen(r.amount)} <span class="normal-badge">通常利用</span></b><br><span>${escapeHTML(r.category)} / ${escapeHTML(r.date)}${r.amount<0?' / 返金':''}</span></div><div class="actions"><button class="mini secondary" onclick="editCardRow('${escapeHTML(r.type)}','${safeActionId(r.id)}')">編集</button><button class="mini refund" onclick="refundCardRow('${escapeHTML(r.type)}','${safeActionId(r.id)}')">返金</button><button class="mini danger" onclick="deleteCardRow('${escapeHTML(r.type)}','${safeActionId(r.id)}')">削除</button></div></div>`).join('')
+   ? normal.map(r=>`<div class="item"><div><b>${escapeHTML(r.memo)} ${yen(r.amount)} <span class="normal-badge">通常利用</span></b><br><span>${escapeHTML(r.category)} / ${escapeHTML(r.date)}${r.amount<0?' / 返金':''}</span></div><div class="actions"><button class="mini secondary" onclick="editCardRow('${safeActionId(r.type)}','${safeActionId(r.id)}')">編集</button><button class="mini refund" onclick="refundCardRow('${safeActionId(r.type)}','${safeActionId(r.id)}')">返金</button><button class="mini danger" onclick="deleteCardRow('${safeActionId(r.type)}','${safeActionId(r.id)}')">削除</button></div></div>`).join('')
    : '<p class="small">通常利用なし</p>';
 
   const fixedHTML=fixed.length
@@ -264,7 +264,7 @@ function renderCards(){
  });
  q('cardDetails').innerHTML=html
 }
-function renderProxy(){q('proxyTotal').textContent=yen(proxySum());const term=(q('proxySearch').value||'').trim().toLowerCase();const rows=proxyOpen().filter(x=>`${escapeHTML(x.memo)} ${escapeHTML(x.date)}`.toLowerCase().includes(term));q('proxyList').innerHTML=rows.length?rows.map(x=>`<div class="item"><div><b>${escapeHTML(x.memo)} <span class="status open">残 ${yen(x.remaining)}</span></b><br><span>${escapeHTML(x.date)} / 元額 ${yen(x.original)} / ${escapeHTML(x.method||'')}</span></div><button class="mini" onclick="recoverProxy('${safeActionId(x.id)}')">回収</button></div>`).join(''):'<p class="small">未回収はありません。</p>';q('recoveryList').innerHTML=data.recoveries.length?[...data.recoveries].reverse().map(r=>`<div class="item"><div><b>${escapeHTML(r.memo)} ${yen(r.amount)}</b><br><span>${escapeHTML(r.date)} / 入金先 ${escapeHTML(r.to)} / ${escapeHTML(r.kind)}</span></div></div>`).join(''):'<p class="small">回収履歴なし</p>'}
+function renderProxy(){q('proxyTotal').textContent=yen(proxySum());const term=(q('proxySearch').value||'').trim().toLowerCase();const rows=proxyOpen().filter(x=>`${x.memo} ${x.date}`.toLowerCase().includes(term));q('proxyList').innerHTML=rows.length?rows.map(x=>`<div class="item"><div><b>${escapeHTML(x.memo)} <span class="status open">残 ${yen(x.remaining)}</span></b><br><span>${escapeHTML(x.date)} / 元額 ${yen(x.original)} / ${escapeHTML(x.method||'')}</span></div><button class="mini" onclick="recoverProxy('${safeActionId(x.id)}')">回収</button></div>`).join(''):'<p class="small">未回収はありません。</p>';q('recoveryList').innerHTML=data.recoveries.length?[...data.recoveries].reverse().map(r=>`<div class="item"><div><b>${escapeHTML(r.memo)} ${yen(r.amount)}</b><br><span>${escapeHTML(r.date)} / 入金先 ${escapeHTML(r.to)} / ${escapeHTML(r.kind)}</span></div></div>`).join(''):'<p class="small">回収履歴なし</p>'}
 
 
 function normalizePaymentName(name=''){
@@ -338,7 +338,7 @@ function fixedForMonth(billYM){return (data.fixedCosts||[]).filter(x=>fixedActiv
 function fixedTotalForMonth(billYM){return fixedForMonth(billYM).reduce((a,x)=>a+(+x.amount||0),0)}
 function fixedKindLabel(x){return x.frequency==='annual'?'年払い':x.frequency==='once'?'単発':x.kind==='installment'?'分割':x.kind==='variable'?'変動見込':'毎月固定'}
 function fixedEnded(x){return !!(x.endYM&&x.endYM<currentYM())}
-function fixedHTML(x){return `<div class="item ${x.active?'':'inactive'}"><div><div class="fixed-head"><b>${escapeHTML(x.name)} ${yen(x.amount)}</b><span class="status ${x.active?'paid':'open'}">${x.active?'有効':'停止'}</span></div><div class="fixed-meta"><span class="tag">${escapeHTML(x.method)}</span><span class="tag">${fixedKindLabel(x)}</span><span class="tag">${escapeHTML(x.startYM||'開始なし')}〜${escapeHTML(x.endYM||'終了なし')}</span>${x.payDay?`<span class="tag">${x.payDay}日</span>`:''}</div>${x.note?`<span>${escapeHTML(x.note)}</span>`:''}</div><div class="actions"><button class="mini secondary" onclick="editFixed('${safeActionId(x.id)}')">編集</button><button class="mini secondary" onclick="toggleFixed('${safeActionId(x.id)}')">${x.active?'停止':'再開'}</button><button class="mini danger" onclick="${fixedEnded(x)?'archiveFixed':'deleteFixed'}('${safeActionId(x.id)}')">${fixedEnded(x)?'一覧から消す':'削除'}</button></div></div>`}
+function fixedHTML(x){return `<div class="item ${x.active?'':'inactive'}"><div><div class="fixed-head"><b>${escapeHTML(x.name)} ${yen(x.amount)}</b><span class="status ${x.active?'paid':'open'}">${x.active?'有効':'停止'}</span></div><div class="fixed-meta"><span class="tag">${escapeHTML(x.method)}</span><span class="tag">${fixedKindLabel(x)}</span><span class="tag">${escapeHTML(x.startYM||'開始なし')}〜${escapeHTML(x.endYM||'終了なし')}</span>${x.payDay?`<span class="tag">${escapeHTML(x.payDay)}日</span>`:''}</div>${x.note?`<span>${escapeHTML(x.note)}</span>`:''}</div><div class="actions"><button class="mini secondary" onclick="editFixed('${safeActionId(x.id)}')">編集</button><button class="mini secondary" onclick="toggleFixed('${safeActionId(x.id)}')">${x.active?'停止':'再開'}</button><button class="mini danger" onclick="${fixedEnded(x)?'archiveFixed':'deleteFixed'}('${safeActionId(x.id)}')">${fixedEnded(x)?'一覧から消す':'削除'}</button></div></div>`}
 function legacyFixedHTML(x,archived=false){
  return `<div class="item"><div><b>${escapeHTML(x.name)} ${yen(x.amount)}</b><br><span>${escapeHTML(x.card)} / ${escapeHTML(x.startYM)}〜${escapeHTML(x.endYM)}</span></div><div class="actions"><button class="mini secondary" onclick="editLegacyInstall('${safeActionId(x.id)}')">編集</button><button class="mini ${archived?'secondary':'danger'}" onclick="${archived?'restoreLegacyInstall':'archiveLegacyInstall'}('${safeActionId(x.id)}')">${archived?'元に戻す':'一覧から消す'}</button></div></div>`;
 }
